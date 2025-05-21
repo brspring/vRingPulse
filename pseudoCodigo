@@ -1,0 +1,55 @@
+// Algoritmo Detector de Falhas executado pelo processo i;
+Inicializar:
+    Suspeitos ← {}                   // Lista de processos falhos/suspeitos
+    VizinhoEsquerda ← (i - 1) % N 6   // Anel circular
+    VizinhoDireita ← (i + 1) % N 1
+    Timeout ← 2 * T                  // Tempo para considerar falha
+
+    // Timers para vizinhos
+    Timer[VizinhoEsquerda] ← Timeout
+    Timer[VizinhoDireita] ← Timeout
+
+A cada intervalo T:
+    // Envia heartbeats para os vizinhos
+    Enviar HEARTBEAT(i, Suspeitos) para VizinhoEsquerda
+    Enviar HEARTBEAT(i, Suspeitos) para VizinhoDireita
+
+    // Verifica timeouts
+    Para cada vizinho ∈ {VizinhoEsquerda, VizinhoDireita}: 
+        Timer[vizinho] ← Timer[vizinho] - T
+        Se Timer[vizinho] ≤ 0 e vizinho ∉ Suspeitos:
+            Suspeitos ← Suspeitos ∪ {vizinho}
+            increment ← 1;
+            
+            // busca vizinhos proximos corretos
+            Enquanto increment <= N-1:
+              se vizinho == vizinhoDireita
+                k ← (vizinho + increment) % N
+              senao
+                k ← (vizinho - increment) % N
+
+              Se k == i:
+                break;
+              
+              se k ∈ Suspeitos:
+                increment++;
+                continue;
+        
+              Enviar HEARTBEAT(i, Suspeitos) para k
+              
+              quando receive(HEARTBEAT k):
+                  break;
+              Senão receive(HEARTBEAT k)
+                  Suspeitos ← Suspeitos ∪ {k};
+                  increment ← increment + 1;
+                
+Quando receber HEARTBEAT(j, Suspeitos_j):
+    // Reseta o timer de j (está vivo)
+    Timer[j] ← Timeout
+
+    // Remove j dos suspeitos (se estava lá)
+    Se j ∈ Suspeitos:
+        Suspeitos ← Suspeitos - {j}
+        
+    // Atualiza lista de suspeitos
+      Suspeitos ← Suspeitos ∪ Suspeitos_j
