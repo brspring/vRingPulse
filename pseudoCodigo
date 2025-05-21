@@ -1,8 +1,8 @@
 // Algoritmo Detector de Falhas executado pelo processo i;
 Inicializar:
     Suspeitos ← {}                   // Lista de processos falhos/suspeitos
-    VizinhoEsquerda ← (i - 1) % N 6   // Anel circular
-    VizinhoDireita ← (i + 1) % N 1
+    VizinhoEsquerda ← (i - 1) % N    // Anel circular
+    VizinhoDireita ← (i + 1) % N
     Timeout ← 2 * T                  // Tempo para considerar falha
 
     // Timers para vizinhos
