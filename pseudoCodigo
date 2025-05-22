@@ -19,20 +19,20 @@ A cada intervalo T:
         Timer[vizinho] ← Timer[vizinho] - T
         Se Timer[vizinho] ≤ 0 e vizinho ∉ Suspeitos:
             Suspeitos ← Suspeitos ∪ {vizinho}
-            increment ← 1;
+            salto ← 1;
             
             // busca vizinhos proximos corretos
-            Enquanto increment <= N-1:
+            Enquanto salto <= N-1:
               se vizinho == vizinhoDireita
-                k ← (vizinho + increment) % N
+                k ← (vizinho + salto) % N
               senao
-                k ← (vizinho - increment) % N
+                k ← (vizinho - salto) % N
 
               Se k == i:
                 break;
               
               se k ∈ Suspeitos:
-                increment++;
+                salto++;
                 continue;
         
               Enviar HEARTBEAT(i, Suspeitos) para k
@@ -41,7 +41,7 @@ A cada intervalo T:
                   break;
               Senão receive(HEARTBEAT k)
                   Suspeitos ← Suspeitos ∪ {k};
-                  increment ← increment + 1;
+                  salto ← salto + 1;
                 
 Quando receber HEARTBEAT(j, Suspeitos_j):
     // Reseta o timer de j (está vivo)
