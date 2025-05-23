@@ -1,0 +1,123 @@
+===============================================================
+           Sistemas Distribuídos - vRing Pulse
+          LOG da Simulação do Protocolo
+   Executando para N = 5 processos.
+   Intervalo de heartbeat T = 30
+           Tempo Total de Simulação = 150
+===============================================================
+
+================================================================
+O processo 1 falhou no tempo 0.0
+================================================================
+
+Processo 0 enviando HEARTBEAT para 4 (esq) e 1 (dir) no tempo 30.0
+
+======================= Vetor state de cada processo no tempo 30.0 ================================
+P0:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:UNKNOWN / S4:UNKNOWN /
+P1:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:UNKNOWN / S4:UNKNOWN /
+P2:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:UNKNOWN / S4:UNKNOWN /
+P3:  S0:UNKNOWN / S1:UNKNOWN / S2:UNKNOWN / S3:CORRETO / S4:UNKNOWN /
+P4:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:UNKNOWN / S4:CORRETO /
+====================================================================================================
+
+
+Processo 2 enviando HEARTBEAT para 1 (esq) e 3 (dir) no tempo 30.0
+
+======================= Vetor state de cada processo no tempo 30.0 ================================
+P0:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:UNKNOWN / S4:UNKNOWN /
+P1:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:UNKNOWN / S4:UNKNOWN /
+P2:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:UNKNOWN / S4:UNKNOWN /
+P3:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:CORRETO / S4:UNKNOWN /
+P4:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:UNKNOWN / S4:CORRETO /
+====================================================================================================
+
+
+Processo 3 enviando HEARTBEAT para 2 (esq) e 4 (dir) no tempo 30.0
+
+======================= Vetor state de cada processo no tempo 30.0 ================================
+P0:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:UNKNOWN / S4:UNKNOWN /
+P1:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:UNKNOWN / S4:UNKNOWN /
+P2:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:CORRETO / S4:UNKNOWN /
+P3:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:CORRETO / S4:UNKNOWN /
+P4:  S0:CORRETO / S1:UNKNOWN / S2:CORRETO / S3:CORRETO / S4:CORRETO /
+====================================================================================================
+
+
+Processo 4 enviando HEARTBEAT para 3 (esq) e 0 (dir) no tempo 30.0
+
+======================= Vetor state de cada processo no tempo 30.0 ================================
+P0:  S0:CORRETO / S1:UNKNOWN / S2:CORRETO / S3:CORRETO / S4:CORRETO /
+P1:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:UNKNOWN / S4:UNKNOWN /
+P2:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:CORRETO / S4:UNKNOWN /
+P3:  S0:CORRETO / S1:UNKNOWN / S2:CORRETO / S3:CORRETO / S4:CORRETO /
+P4:  S0:CORRETO / S1:UNKNOWN / S2:CORRETO / S3:CORRETO / S4:CORRETO /
+====================================================================================================
+
+
+================================================================
+O processo 0 falhou no tempo 31.0
+================================================================
+
+================================================================
+O processo 3 falhou no tempo 31.0
+================================================================
+
+================================================================
+O processo 4 falhou no tempo 31.0
+================================================================
+
+Processo 2 enviando HEARTBEAT para 1 (esq) e 3 (dir) no tempo 60.0
+Processo 2 detecta que 1 está SUSPEITO no tempo 60.0 (timeout)
+Processo 2 atualiza vizinho ESQUERDO: 1 -> 0
+
+======================= Vetor state de cada processo no tempo 60.0 ================================
+P0:  S0:CORRETO / S1:SUSPEITO / S2:CORRETO / S3:CORRETO / S4:CORRETO /
+P1:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO / S4:UNKNOWN /
+P2:  S0:UNKNOWN / S1:SUSPEITO / S2:CORRETO / S3:CORRETO / S4:UNKNOWN /
+P3:  S0:CORRETO / S1:UNKNOWN / S2:CORRETO / S3:CORRETO / S4:CORRETO /
+P4:  S0:CORRETO / S1:UNKNOWN / S2:CORRETO / S3:CORRETO / S4:CORRETO /
+====================================================================================================
+
+
+Processo 2 enviando HEARTBEAT para 0 (esq) e 3 (dir) no tempo 90.0
+Processo 2 detecta que 3 está SUSPEITO no tempo 90.0 (timeout)
+Processo 2 atualiza vizinho DIREITO: 3 -> 4
+
+======================= Vetor state de cada processo no tempo 90.0 ================================
+P0:  S0:CORRETO / S1:SUSPEITO / S2:CORRETO / S3:CORRETO / S4:CORRETO /
+P1:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO / S4:UNKNOWN /
+P2:  S0:UNKNOWN / S1:SUSPEITO / S2:CORRETO / S3:SUSPEITO / S4:UNKNOWN /
+P3:  S0:CORRETO / S1:SUSPEITO / S2:CORRETO / S3:CORRETO / S4:CORRETO /
+P4:  S0:CORRETO / S1:SUSPEITO / S2:CORRETO / S3:SUSPEITO / S4:CORRETO /
+====================================================================================================
+
+
+Processo 2 enviando HEARTBEAT para 0 (esq) e 4 (dir) no tempo 120.0
+Processo 2 detecta que 0 está SUSPEITO no tempo 120.0 (timeout)
+Processo 2 atualiza vizinho ESQUERDO: 0 -> 4
+
+======================= Vetor state de cada processo no tempo 120.0 ================================
+P0:  S0:CORRETO / S1:SUSPEITO / S2:CORRETO / S3:SUSPEITO / S4:CORRETO /
+P1:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO / S4:UNKNOWN /
+P2:  S0:SUSPEITO / S1:SUSPEITO / S2:CORRETO / S3:SUSPEITO / S4:UNKNOWN /
+P3:  S0:CORRETO / S1:SUSPEITO / S2:CORRETO / S3:CORRETO / S4:CORRETO /
+P4:  S0:SUSPEITO / S1:SUSPEITO / S2:CORRETO / S3:SUSPEITO / S4:CORRETO /
+====================================================================================================
+
+
+Processo 2 enviando HEARTBEAT para 4 (esq) e 4 (dir) no tempo 150.0
+Processo 2 detecta que 4 está SUSPEITO no tempo 150.0 (timeout)
+Processo 2 atualiza vizinho ESQUERDO: 4 -> 3
+Processo 2 atualiza vizinho DIREITO: 4 -> 0
+Processo 2 detecta que 4 está SUSPEITO no tempo 150.0 (timeout)
+
+======================= Vetor state de cada processo no tempo 150.0 ================================
+P0:  S0:CORRETO / S1:SUSPEITO / S2:CORRETO / S3:SUSPEITO / S4:CORRETO /
+P1:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO / S4:UNKNOWN /
+P2:  S0:SUSPEITO / S1:SUSPEITO / S2:CORRETO / S3:SUSPEITO / S4:SUSPEITO /
+P3:  S0:CORRETO / S1:SUSPEITO / S2:CORRETO / S3:CORRETO / S4:CORRETO /
+P4:  S0:SUSPEITO / S1:SUSPEITO / S2:CORRETO / S3:SUSPEITO / S4:CORRETO /
+====================================================================================================
+
+
+Processo 2 enviando HEARTBEAT para 3 (esq) e 0 (dir) no tempo 180.0
