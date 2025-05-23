@@ -24,9 +24,9 @@ int main(int argc, char *argv[]) {
    static int N,           // número de processos
               token,       // indica o processo que está executando
               event, r, i;
-   static int MaxTempoSimulac = 10;
+   static int MaxTempoSimulac = 150;
    static char fa_name[5];
-   static int T = 2;      // Intervalo de heartbeat
+   static int T = 20;      // Intervalo de heartbeat
 
    if (argc != 2) {
       puts("Uso correto: ./vRingPulse <número de processos>");
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
       // Inicializa os estados e timer
       for (int j = 0; j < N; j++) {
          processo[i].State[j] = (i == j) ? 0 : -1;
-         processo[i].Timer[j] = 2 * T;
+         processo[i].Timer[j] = 0;
       }
 
       // Define vizinhos
@@ -75,13 +75,13 @@ int main(int argc, char *argv[]) {
    // Escalonar os primeiros heartbeats e checagens
    for (i = 0; i < N; i++) {
       schedule(HEARTBEAT, T, i);
-      schedule(CHECK_TIMEOUT, 1.0, i);
+      schedule(CHECK_TIMEOUT, T, i);
    }
    
    // Escalonar falhas para teste
-   schedule(FAULT, 3.0, 1);
-   schedule(FAULT, 3.0, 2);
-   schedule(FAULT, 3.0, 3);
+   schedule(FAULT, 31.0, 1);
+   schedule(FAULT, 31.0, 2);
+   schedule(FAULT, 31.0, 3);
 
 
    puts("===============================================================");
@@ -91,6 +91,10 @@ int main(int argc, char *argv[]) {
    printf("   Intervalo de heartbeat T = %d\n", T);
    printf("           Tempo Total de Simulação = %d\n", MaxTempoSimulac);
    puts("===============================================================");
+
+   // Inicializa os tempos de checagem
+   double last_check_time[N];
+   for (int i = 0; i < N; i++) last_check_time[i] = time();
 
    // Loop de simulação
    while (time() <= MaxTempoSimulac) {
@@ -123,40 +127,51 @@ int main(int argc, char *argv[]) {
 
          case CHECK_TIMEOUT:
             if (status(processo[token].id) != 0) break; // Se estou falho, não checo
-            
-            // Incrementa timers para todos os outros
-            for (int j = 0; j < N; j++) {
-               if (j == token) continue;
-               processo[token].Timer[j]++;
 
-               // Verifica timeout
-               if (processo[token].Timer[j] >= 2 * T && processo[token].State[j] == 0) {
+            double delta = time() - last_check_time[token];
+            last_check_time[token] = time();
+            int vizinhos[2] = {processo[token].left, processo[token].right};
+            for (int i = 0; i < 2; i++) {
+               int j = vizinhos[i];
+               processo[token].Timer[j] += delta;
+
+               printf("Processo %d checando o timer de %d: %d\n", token, j, processo[token].Timer[j]);
+
+               if (processo[token].Timer[j] >= 2*T) {
                   processo[token].State[j] = 1; // Marca como suspeito
-                  printf("Processo %d detecta que %d está SUSPEITO no tempo %.1f (timeout)\n",
-                        token, j, time());
+                  printf("Processo %d detecta que %d está SUSPEITO no tempo %.1f (timeout)\n", token, j, time());
+
+                  if (processo[token].left == j) {
+                        int old = processo[token].left;
+                        processo[token].left = (processo[token].left - 1 + N) % N;
+                        printf("Processo %d atualiza vizinho ESQUERDO: %d -> %d\n", token, old, processo[token].left);
+                  }
+                  if (processo[token].right == j) {
+                        int old = processo[token].right;
+                        processo[token].right = (processo[token].right + 1) % N;
+                        printf("Processo %d atualiza vizinho DIREITO: %d -> %d\n", token, old, processo[token].right);
+                  }
                }
             }
 
-            // Reagenda checagem
-            schedule(CHECK_TIMEOUT, 1.0, token);
+            printf("Processo %d checando timeouts no tempo %.1f\n", token, time());
+            printf("\n=========== Estado dos Processos no tempo %.1f ===========\n", time());
+            for (int j = 0; j < N; j++) {
+               printf("P%d: ", j);
+               for (int k = 0; k < N; k++) {
+                  if (processo[j].State[k] == 0)
+                     printf(" S%d:CORRETO /", k);
+                  else if (processo[j].State[k] == 1)
+                     printf(" S%d:SUSPEITO /", k);
+                  else
+                     printf(" S%d:UNKNOWN /", k);
+               }
+               printf("\n");
+            }
+            printf("===========================================================\n\n");
+            schedule(CHECK_TIMEOUT, T, token);
             break;
       }
-
-      // Imprime estado dos processos
-      printf("\n=========== Estado dos Processos no tempo %.1f ===========\n", time());
-      for (int j = 0; j < N; j++) {
-         printf("P%d: ", j);
-         for (int k = 0; k < N; k++) {
-            if (processo[j].State[k] == 0)
-               printf(" S%d:CORRETO /", k);
-            else if (processo[j].State[k] == 1)
-               printf(" S%d:SUSPEITO /", k);
-            else
-               printf(" S%d:UNKNOWN /", k);
-         }
-         printf("\n");
-      }
-      printf("===========================================================\n\n");
    }
 
    // Libera a memória alocada
