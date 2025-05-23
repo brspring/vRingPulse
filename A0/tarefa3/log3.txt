@@ -1,0 +1,71 @@
+===============================================================
+           Sistemas Distribuídos - Prof. Elias
+          LOG do Trabalho Prático 0, Tarefa 1
+   Executando para N = 4 processos.
+           Tempo Total de Simulação = 150
+===============================================================
+O processo 0 testou o processo 1 CORRETO no tempo 30.0
+O processo 1 testou o processo 2 CORRETO no tempo 30.0
+O processo 2 testou o processo 3 CORRETO no tempo 30.0
+O processo 3 testou o processo 0 CORRETO no tempo 30.0
+
+=========== Estado dos Processos no tempo 30.0 ===========
+P0:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:UNKNOWN /
+P1:  S0:UNKNOWN / S1:CORRETO / S2:CORRETO / S3:UNKNOWN /
+P2:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:CORRETO /
+P3:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:CORRETO /
+===========================================================
+
+O processo 1 falhou no tempo 31.0
+O processo 2 falhou no tempo 31.0
+O processo 0 testou o processo 1 FALHO no tempo 60.0
+O processo 0 testou o processo 2 FALHO no tempo 60.0
+O processo 0 testou o processo 3 CORRETO no tempo 60.0
+O processo 3 testou o processo 0 CORRETO no tempo 60.0
+
+=========== Estado dos Processos no tempo 60.0 ===========
+P0:  S0:CORRETO / S1:FALHO / S2:FALHO / S3:CORRETO /
+P1:  S0:UNKNOWN / S1:CORRETO / S2:CORRETO / S3:UNKNOWN /
+P2:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:CORRETO /
+P3:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:CORRETO /
+===========================================================
+
+O processo 1 recuperou no tempo 61.0
+O processo 1 testou o processo 2 FALHO no tempo 62.0
+O processo 1 testou o processo 3 CORRETO no tempo 62.0
+O processo 0 testou o processo 1 CORRETO no tempo 90.0
+O processo 3 testou o processo 0 CORRETO no tempo 90.0
+
+=========== Estado dos Processos no tempo 90.0 ===========
+P0:  S0:CORRETO / S1:CORRETO / S2:FALHO / S3:CORRETO /
+P1:  S0:UNKNOWN / S1:CORRETO / S2:FALHO / S3:CORRETO /
+P2:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:CORRETO /
+P3:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:CORRETO /
+===========================================================
+
+O processo 1 testou o processo 2 FALHO no tempo 92.0
+O processo 1 testou o processo 3 CORRETO no tempo 92.0
+O processo 0 testou o processo 1 CORRETO no tempo 120.0
+O processo 3 testou o processo 0 CORRETO no tempo 120.0
+
+=========== Estado dos Processos no tempo 120.0 ===========
+P0:  S0:CORRETO / S1:CORRETO / S2:FALHO / S3:CORRETO /
+P1:  S0:UNKNOWN / S1:CORRETO / S2:FALHO / S3:CORRETO /
+P2:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:CORRETO /
+P3:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:CORRETO /
+===========================================================
+
+O processo 1 testou o processo 2 FALHO no tempo 122.0
+O processo 1 testou o processo 3 CORRETO no tempo 122.0
+O processo 0 testou o processo 1 CORRETO no tempo 150.0
+O processo 3 testou o processo 0 CORRETO no tempo 150.0
+
+=========== Estado dos Processos no tempo 150.0 ===========
+P0:  S0:CORRETO / S1:CORRETO / S2:FALHO / S3:CORRETO /
+P1:  S0:UNKNOWN / S1:CORRETO / S2:FALHO / S3:CORRETO /
+P2:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:CORRETO /
+P3:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:CORRETO /
+===========================================================
+
+O processo 1 testou o processo 2 FALHO no tempo 152.0
+O processo 1 testou o processo 3 CORRETO no tempo 152.0
