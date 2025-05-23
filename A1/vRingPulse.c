@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
    // Escalonar falhas para teste
    //schedule(FAULT, 31.0, 1);
    schedule(FAULT, 31.0, 2);
-   //schedule(FAULT, 31.0, 3);
+   schedule(FAULT, 31.0, 3);
 
 
    puts("===============================================================");
