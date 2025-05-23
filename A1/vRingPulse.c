@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
               event, r, i;
    static int MaxTempoSimulac = 150;
    static char fa_name[5];
-   static int T = 20;      // Intervalo de heartbeat
+   static int T = 30;      // Intervalo de heartbeat
 
    if (argc != 2) {
       puts("Uso correto: ./vRingPulse <número de processos>");
@@ -79,9 +79,9 @@ int main(int argc, char *argv[]) {
    }
    
    // Escalonar falhas para teste
-   schedule(FAULT, 31.0, 1);
+   //schedule(FAULT, 31.0, 1);
    schedule(FAULT, 31.0, 2);
-   schedule(FAULT, 31.0, 3);
+   //schedule(FAULT, 31.0, 3);
 
 
    puts("===============================================================");
@@ -103,34 +103,68 @@ int main(int argc, char *argv[]) {
       switch (event) {  
          case HEARTBEAT:
             if (status(processo[token].id) != 0) break; // Processo falho não envia heartbeats
-            
+
             // Envia heartbeats para os vizinhos
             printf("Processo %d enviando HEARTBEAT para %d (esq) e %d (dir) no tempo %.1f\n", 
                   token, processo[token].left, processo[token].right, time());
-            
+
             // Reset timer nos vizinhos que receberam o heartbeat
             processo[processo[token].left].Timer[token] = 0;
             processo[processo[token].right].Timer[token] = 0;
-      
-            // Atualiza estado nos vizinhos (visto como correto)
-            processo[processo[token].left].State[token] = 0;
+
+            // Atualiza estado local dos vizinhos sobre este processo (token está correto)
+            processo[processo[token].left].State[token] = 0;  // CORRETO
             processo[processo[token].right].State[token] = 0;
-            
+
+            for (int s = 0; s < N; s++) {
+               int estado_local = processo[token].State[s];
+               if (processo[processo[token].left].State[s] < estado_local)
+                  processo[processo[token].left].State[s] = estado_local;
+
+               if (processo[processo[token].right].State[s] < estado_local)
+                  processo[processo[token].right].State[s] = estado_local;
+            }
+
+            // Propagação do vetor de estados (State[]) para os vizinhos
+            // for (int s = 0; s < N; s++) {
+            //    int estado_local = processo[token].State[s]; // estado que token tem sobre s
+
+            //    // Propagar para o vizinho esquerdo
+            //    if (estado_local == 0 || processo[processo[token].left].State[s] == -1) {
+            //          processo[processo[token].left].State[s] = estado_local;
+            //    }
+
+            //    // Propagar para o vizinho direito
+            //    if (estado_local == 0 || processo[processo[token].right].State[s] == -1) {
+            //          processo[processo[token].right].State[s] = estado_local;
+            //    }
+            // }
+
             // Reagenda o próximo heartbeat
             schedule(HEARTBEAT, T, token);
             break;
             
          case FAULT:
             r = request(processo[token].id, token, 0);
-            printf("O processo %d falhou no tempo %.1f\n", token, time());
-            break;
 
+            if (r != 0) {
+               printf("Erro ao falhar processo %d no tempo %.1f: recurso já alocado.\n", token, time());
+            } else {
+               printf("\n");
+               printf("================================================================\n");
+               printf("O processo %d falhou no tempo %.1f\n", token, time());
+               printf("================================================================\n");
+               printf("\n");
+            }
+
+            break;
          case CHECK_TIMEOUT:
             if (status(processo[token].id) != 0) break; // Se estou falho, não checo
 
             double delta = time() - last_check_time[token];
             last_check_time[token] = time();
             int vizinhos[2] = {processo[token].left, processo[token].right};
+
             for (int i = 0; i < 2; i++) {
                int j = vizinhos[i];
                processo[token].Timer[j] += delta;
@@ -138,19 +172,49 @@ int main(int argc, char *argv[]) {
                printf("Processo %d checando o timer de %d: %d\n", token, j, processo[token].Timer[j]);
 
                if (processo[token].Timer[j] >= 2*T) {
-                  processo[token].State[j] = 1; // Marca como suspeito
-                  printf("Processo %d detecta que %d está SUSPEITO no tempo %.1f (timeout)\n", token, j, time());
+                     processo[token].State[j] = 1; // Marca como suspeito
+                     printf("Processo %d detecta que %d está SUSPEITO no tempo %.1f (timeout)\n", token, j, time());
 
-                  if (processo[token].left == j) {
+                     int salto = 1;
+                     int k = j;
+
+                     while (salto < N) {
+                        if (j == processo[token].left)
+                           k = (j - salto + N) % N;  // lado esquerdo
+                        else
+                           k = (j + salto) % N;      // lado direito
+
+                        if (k == token) break; // não envia para si mesmo
+
+                        if (processo[token].State[k] == 1) {
+                           salto++;
+                           continue;
+                        }
+
+                        // Simular envio de heartbeat para k e propagação do State[]
+                        processo[k].Timer[token] = 0;
+                        processo[k].State[token] = 0;
+
+                        for (int s = 0; s < N; s++) {
+                           int estado_local = processo[token].State[s];
+                           if (processo[k].State[s] == -1 || processo[k].State[s] < estado_local) {
+                                 processo[k].State[s] = estado_local;
+                           }
+                        }
+
+                        break; // encontrou um processo correto para receber
+                     }
+
+                     if (processo[token].left == j) {
                         int old = processo[token].left;
                         processo[token].left = (processo[token].left - 1 + N) % N;
                         printf("Processo %d atualiza vizinho ESQUERDO: %d -> %d\n", token, old, processo[token].left);
-                  }
-                  if (processo[token].right == j) {
+                     }
+                     if (processo[token].right == j) {
                         int old = processo[token].right;
                         processo[token].right = (processo[token].right + 1) % N;
                         printf("Processo %d atualiza vizinho DIREITO: %d -> %d\n", token, old, processo[token].right);
-                  }
+                     }
                }
             }
 
@@ -159,18 +223,19 @@ int main(int argc, char *argv[]) {
             for (int j = 0; j < N; j++) {
                printf("P%d: ", j);
                for (int k = 0; k < N; k++) {
-                  if (processo[j].State[k] == 0)
-                     printf(" S%d:CORRETO /", k);
-                  else if (processo[j].State[k] == 1)
-                     printf(" S%d:SUSPEITO /", k);
-                  else
-                     printf(" S%d:UNKNOWN /", k);
+                     if (processo[j].State[k] == 0)
+                        printf(" S%d:CORRETO /", k);
+                     else if (processo[j].State[k] == 1)
+                        printf(" S%d:SUSPEITO /", k);
+                     else
+                        printf(" S%d:UNKNOWN /", k);
                }
                printf("\n");
             }
             printf("===========================================================\n\n");
             schedule(CHECK_TIMEOUT, T, token);
             break;
+
       }
    }
 

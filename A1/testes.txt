@@ -1,0 +1,505 @@
+CERTO -> TESTE COM 4 PROCESSOS E COM O 2 FALHO DO INICIO AO FIM:
+
+	===============================================================
+		   Sistemas Distribuídos - vRing Pulse
+		  LOG da Simulação do Protocolo
+	   Executando para N = 4 processos.
+	   Intervalo de heartbeat T = 30
+		   Tempo Total de Simulação = 150
+	===============================================================
+	O processo 2 falhou no tempo 2.0
+	Processo 0 enviando HEARTBEAT para 3 (esq) e 1 (dir) no tempo 30.0
+	Processo 0 checando o timer de 3: 30
+	Processo 0 checando o timer de 1: 30
+	Processo 0 checando timeouts no tempo 30.0
+
+	=========== Estado dos Processos no tempo 30.0 ===========
+	P0:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:UNKNOWN /
+	P1:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:UNKNOWN /
+	P2:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:UNKNOWN /
+	P3:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:CORRETO /
+	===========================================================
+
+	Processo 1 enviando HEARTBEAT para 0 (esq) e 2 (dir) no tempo 30.0
+	Processo 1 checando o timer de 0: 30
+	Processo 1 checando o timer de 2: 30
+	Processo 1 checando timeouts no tempo 30.0
+
+	=========== Estado dos Processos no tempo 30.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:UNKNOWN /
+	P1:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:UNKNOWN /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:UNKNOWN /
+	P3:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:CORRETO /
+	===========================================================
+
+	Processo 3 enviando HEARTBEAT para 2 (esq) e 0 (dir) no tempo 30.0
+	Processo 3 checando o timer de 2: 30
+	Processo 3 checando o timer de 0: 30
+	Processo 3 checando timeouts no tempo 30.0
+
+	=========== Estado dos Processos no tempo 30.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:UNKNOWN /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:CORRETO /
+	===========================================================
+
+	Processo 0 enviando HEARTBEAT para 3 (esq) e 1 (dir) no tempo 60.0
+	Processo 0 checando o timer de 3: 30
+	Processo 0 checando o timer de 1: 30
+	Processo 0 checando timeouts no tempo 60.0
+
+	=========== Estado dos Processos no tempo 60.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:CORRETO /
+	===========================================================
+
+	Processo 1 enviando HEARTBEAT para 0 (esq) e 2 (dir) no tempo 60.0
+	Processo 1 checando o timer de 0: 30
+	Processo 1 checando o timer de 2: 60
+	Processo 1 detecta que 2 está SUSPEITO no tempo 60.0 (timeout)
+	Processo 1 atualiza vizinho DIREITO: 2 -> 3
+	Processo 1 checando timeouts no tempo 60.0
+
+	=========== Estado dos Processos no tempo 60.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 3 enviando HEARTBEAT para 2 (esq) e 0 (dir) no tempo 60.0
+	Processo 3 checando o timer de 2: 60
+	Processo 3 detecta que 2 está SUSPEITO no tempo 60.0 (timeout)
+	Processo 3 atualiza vizinho ESQUERDO: 2 -> 1
+	Processo 3 checando o timer de 0: 30
+	Processo 3 checando timeouts no tempo 60.0
+
+	=========== Estado dos Processos no tempo 60.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 0 enviando HEARTBEAT para 3 (esq) e 1 (dir) no tempo 90.0
+	Processo 0 checando o timer de 3: 30
+	Processo 0 checando o timer de 1: 30
+	Processo 0 checando timeouts no tempo 90.0
+
+	=========== Estado dos Processos no tempo 90.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 1 enviando HEARTBEAT para 0 (esq) e 3 (dir) no tempo 90.0
+	Processo 1 checando o timer de 0: 30
+	Processo 1 checando o timer de 3: 30
+	Processo 1 checando timeouts no tempo 90.0
+
+	=========== Estado dos Processos no tempo 90.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 3 enviando HEARTBEAT para 1 (esq) e 0 (dir) no tempo 90.0
+	Processo 3 checando o timer de 1: 30
+	Processo 3 checando o timer de 0: 30
+	Processo 3 checando timeouts no tempo 90.0
+
+	=========== Estado dos Processos no tempo 90.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 0 enviando HEARTBEAT para 3 (esq) e 1 (dir) no tempo 120.0
+	Processo 0 checando o timer de 3: 30
+	Processo 0 checando o timer de 1: 30
+	Processo 0 checando timeouts no tempo 120.0
+
+	=========== Estado dos Processos no tempo 120.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 1 enviando HEARTBEAT para 0 (esq) e 3 (dir) no tempo 120.0
+	Processo 1 checando o timer de 0: 30
+	Processo 1 checando o timer de 3: 30
+	Processo 1 checando timeouts no tempo 120.0
+
+	=========== Estado dos Processos no tempo 120.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 3 enviando HEARTBEAT para 1 (esq) e 0 (dir) no tempo 120.0
+	Processo 3 checando o timer de 1: 30
+	Processo 3 checando o timer de 0: 30
+	Processo 3 checando timeouts no tempo 120.0
+
+	=========== Estado dos Processos no tempo 120.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 0 enviando HEARTBEAT para 3 (esq) e 1 (dir) no tempo 150.0
+	Processo 0 checando o timer de 3: 30
+	Processo 0 checando o timer de 1: 30
+	Processo 0 checando timeouts no tempo 150.0
+
+	=========== Estado dos Processos no tempo 150.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 1 enviando HEARTBEAT para 0 (esq) e 3 (dir) no tempo 150.0
+	Processo 1 checando o timer de 0: 30
+	Processo 1 checando o timer de 3: 30
+	Processo 1 checando timeouts no tempo 150.0
+
+	=========== Estado dos Processos no tempo 150.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 3 enviando HEARTBEAT para 1 (esq) e 0 (dir) no tempo 150.0
+	Processo 3 checando o timer de 1: 30
+	Processo 3 checando o timer de 0: 30
+	Processo 3 checando timeouts no tempo 150.0
+
+	=========== Estado dos Processos no tempo 150.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+CORRETO - TESTE 4 PROCESSOS COM O 2 FALHANDO DEPOIS DO INICIO:
+
+	spring@spring-IdeaPad-1-15IAU7:~/vRingPulse/A1$ ./vRingPulse 4
+	===============================================================
+		   Sistemas Distribuídos - vRing Pulse
+		  LOG da Simulação do Protocolo
+	   Executando para N = 4 processos.
+	   Intervalo de heartbeat T = 30
+		   Tempo Total de Simulação = 150
+	===============================================================
+	Processo 0 enviando HEARTBEAT para 3 (esq) e 1 (dir) no tempo 30.0
+	Processo 0 checando o timer de 3: 30
+	Processo 0 checando o timer de 1: 30
+	Processo 0 checando timeouts no tempo 30.0
+
+	=========== Estado dos Processos no tempo 30.0 ===========
+	P0:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:UNKNOWN /
+	P1:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:UNKNOWN /
+	P2:  S0:UNKNOWN / S1:UNKNOWN / S2:CORRETO / S3:UNKNOWN /
+	P3:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:CORRETO /
+	===========================================================
+
+	Processo 1 enviando HEARTBEAT para 0 (esq) e 2 (dir) no tempo 30.0
+	Processo 1 checando o timer de 0: 30
+	Processo 1 checando o timer de 2: 30
+	Processo 1 checando timeouts no tempo 30.0
+
+	=========== Estado dos Processos no tempo 30.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:UNKNOWN /
+	P1:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:UNKNOWN /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:UNKNOWN /
+	P3:  S0:CORRETO / S1:UNKNOWN / S2:UNKNOWN / S3:CORRETO /
+	===========================================================
+
+	Processo 2 enviando HEARTBEAT para 1 (esq) e 3 (dir) no tempo 30.0
+	Processo 2 checando o timer de 1: 30
+	Processo 2 checando o timer de 3: 30
+	Processo 2 checando timeouts no tempo 30.0
+
+	=========== Estado dos Processos no tempo 30.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:UNKNOWN / S3:UNKNOWN /
+	P1:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:UNKNOWN /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:UNKNOWN /
+	P3:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	===========================================================
+
+	Processo 3 enviando HEARTBEAT para 2 (esq) e 0 (dir) no tempo 30.0
+	Processo 3 checando o timer de 2: 30
+	Processo 3 checando o timer de 0: 30
+	Processo 3 checando timeouts no tempo 30.0
+
+	=========== Estado dos Processos no tempo 30.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:UNKNOWN /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	===========================================================
+
+
+	================================================================
+	O processo 2 falhou no tempo 31.0
+	================================================================
+
+	Processo 0 enviando HEARTBEAT para 3 (esq) e 1 (dir) no tempo 60.0
+	Processo 0 checando o timer de 3: 30
+	Processo 0 checando o timer de 1: 30
+	Processo 0 checando timeouts no tempo 60.0
+
+	=========== Estado dos Processos no tempo 60.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	===========================================================
+
+	Processo 1 enviando HEARTBEAT para 0 (esq) e 2 (dir) no tempo 60.0
+	Processo 1 checando o timer de 0: 30
+	Processo 1 checando o timer de 2: 30
+	Processo 1 checando timeouts no tempo 60.0
+
+	=========== Estado dos Processos no tempo 60.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	===========================================================
+
+	Processo 3 enviando HEARTBEAT para 2 (esq) e 0 (dir) no tempo 60.0
+	Processo 3 checando o timer de 2: 60
+	Processo 3 detecta que 2 está SUSPEITO no tempo 60.0 (timeout)
+	Processo 3 atualiza vizinho ESQUERDO: 2 -> 1
+	Processo 3 checando o timer de 0: 30
+	Processo 3 checando timeouts no tempo 60.0
+
+	=========== Estado dos Processos no tempo 60.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 0 enviando HEARTBEAT para 3 (esq) e 1 (dir) no tempo 90.0
+	Processo 0 checando o timer de 3: 30
+	Processo 0 checando o timer de 1: 30
+	Processo 0 checando timeouts no tempo 90.0
+
+	=========== Estado dos Processos no tempo 90.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:CORRETO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 1 enviando HEARTBEAT para 0 (esq) e 2 (dir) no tempo 90.0
+	Processo 1 checando o timer de 0: 30
+	Processo 1 checando o timer de 2: 60
+	Processo 1 detecta que 2 está SUSPEITO no tempo 90.0 (timeout)
+	Processo 1 atualiza vizinho DIREITO: 2 -> 3
+	Processo 1 checando timeouts no tempo 90.0
+
+	=========== Estado dos Processos no tempo 90.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 3 enviando HEARTBEAT para 1 (esq) e 0 (dir) no tempo 90.0
+	Processo 3 checando o timer de 1: 30
+	Processo 3 checando o timer de 0: 30
+	Processo 3 checando timeouts no tempo 90.0
+
+	=========== Estado dos Processos no tempo 90.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 0 enviando HEARTBEAT para 3 (esq) e 1 (dir) no tempo 120.0
+	Processo 0 checando o timer de 3: 30
+	Processo 0 checando o timer de 1: 30
+	Processo 0 checando timeouts no tempo 120.0
+
+	=========== Estado dos Processos no tempo 120.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 1 enviando HEARTBEAT para 0 (esq) e 3 (dir) no tempo 120.0
+	Processo 1 checando o timer de 0: 30
+	Processo 1 checando o timer de 3: 30
+	Processo 1 checando timeouts no tempo 120.0
+
+	=========== Estado dos Processos no tempo 120.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 3 enviando HEARTBEAT para 1 (esq) e 0 (dir) no tempo 120.0
+	Processo 3 checando o timer de 1: 30
+	Processo 3 checando o timer de 0: 30
+	Processo 3 checando timeouts no tempo 120.0
+
+	=========== Estado dos Processos no tempo 120.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 0 enviando HEARTBEAT para 3 (esq) e 1 (dir) no tempo 150.0
+	Processo 0 checando o timer de 3: 30
+	Processo 0 checando o timer de 1: 30
+	Processo 0 checando timeouts no tempo 150.0
+
+	=========== Estado dos Processos no tempo 150.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 1 enviando HEARTBEAT para 0 (esq) e 3 (dir) no tempo 150.0
+	Processo 1 checando o timer de 0: 30
+	Processo 1 checando o timer de 3: 30
+	Processo 1 checando timeouts no tempo 150.0
+
+	=========== Estado dos Processos no tempo 150.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 3 enviando HEARTBEAT para 1 (esq) e 0 (dir) no tempo 150.0
+	Processo 3 checando o timer de 1: 30
+	Processo 3 checando o timer de 0: 30
+	Processo 3 checando timeouts no tempo 150.0
+
+	=========== Estado dos Processos no tempo 150.0 ===========
+	P0:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P1:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P2:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	P3:  S0:CORRETO / S1:CORRETO / S2:SUSPEITO / S3:CORRETO /
+	===========================================================
+
+	Processo 0 enviando HEARTBEAT para 3 (esq) e 1 (dir) no tempo 180.0
+
+
+TESTE COM 2 PROCESSOS FALHOS CONSECUTIVOS:
+
+
+
+
+
+
+
+
+
+
+CHECK_TIMEOUT antigo se precisar:
+
+         case CHECK_TIMEOUT:
+            if (status(processo[token].id) != 0) break; // Se estou falho, não checo
+
+            double delta = time() - last_check_time[token];
+            last_check_time[token] = time();
+            int vizinhos[2] = {processo[token].left, processo[token].right};
+
+            for (int i = 0; i < 2; i++) {
+               int j = vizinhos[i];
+               processo[token].Timer[j] += delta;
+
+               printf("Processo %d checando o timer de %d: %d\n", token, j, processo[token].Timer[j]);
+
+               if (processo[token].Timer[j] >= 2*T) {
+                  processo[token].State[j] = 1; // Marca como suspeito
+                  printf("Processo %d detecta que %d está SUSPEITO no tempo %.1f (timeout)\n", token, j, time());
+               
+               int salto = 1;
+               int k = j;
+
+               while (salto < N) {
+                  // se o vizinho da esquerda for o falho, testa o vizinho da esquerda dele
+                  if (j == processo[token].left)
+                     k = (j - salto + N) % N;
+                  else
+                     k = (j + salto) % N;
+
+                  if (k == token) break; // não envia para si mesmo
+
+                  if (processo[token].State[k] == 1) {
+                     salto++;
+                     continue;
+                  }
+
+                  // simular envio de heartbeat para k e propagação do State[]
+                  processo[k].Timer[token] = 0;
+                  processo[k].State[token] = 0;
+
+                  // propaga o vetor completo para avisar o vizinho sobre o que ele sabe
+                  for (int s = 0; s < N; s++) {
+                     int estado_local = processo[token].State[s];
+                     if (estado_local == 0 || processo[k].State[s] == -1 || processo[k].State[s] < estado_local) {
+                        processo[k].State[s] = estado_local;
+                     }
+                  }
+                  // for (int s = 0; s < N; s++) {
+                  //    int estado_local = processo[token].State[s];
+                  //    if (processo[k].State[s] == -1 || processo[k].State[s] < estado_local) {
+                  //       processo[k].State[s] = estado_local;
+                  //    }
+                  // }
+
+                  break; // parou no primeiro correto
+               }
+                  if (processo[token].left == j) {
+                        int old = processo[token].left;
+                        processo[token].left = (processo[token].left - 1 + N) % N;
+                        printf("Processo %d atualiza vizinho ESQUERDO: %d -> %d\n", token, old, processo[token].left);
+                  }
+                  if (processo[token].right == j) {
+                        int old = processo[token].right;
+                        processo[token].right = (processo[token].right + 1) % N;
+                        printf("Processo %d atualiza vizinho DIREITO: %d -> %d\n", token, old, processo[token].right);
+                  }
+               }
+            }
+
+            printf("Processo %d checando timeouts no tempo %.1f\n", token, time());
+            printf("\n=========== Estado dos Processos no tempo %.1f ===========\n", time());
+            for (int j = 0; j < N; j++) {
+               printf("P%d: ", j);
+               for (int k = 0; k < N; k++) {
+                  if (processo[j].State[k] == 0)
+                     printf(" S%d:CORRETO /", k);
+                  else if (processo[j].State[k] == 1)
+                     printf(" S%d:SUSPEITO /", k);
+                  else
+                     printf(" S%d:UNKNOWN /", k);
+               }
+               printf("\n");
+            }
+            printf("===========================================================\n\n");
+            schedule(CHECK_TIMEOUT, T, token);
+            break;
