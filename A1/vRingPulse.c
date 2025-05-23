@@ -20,6 +20,24 @@ typedef struct {
 
 TipoProcesso *processo;
 
+void print_states(int token, int N) {
+   printf("Processo %d checando timeouts no tempo %.1f\n", token, time());
+   printf("\n=========== Estado dos Processos no tempo %.1f ===========\n", time());
+   for (int j = 0; j < N; j++) {
+      printf("P%d: ", j);
+      for (int k = 0; k < N; k++) {
+            if (processo[j].State[k] == 0)
+               printf(" S%d:CORRETO /", k);
+            else if (processo[j].State[k] == 1)
+               printf(" S%d:SUSPEITO /", k);
+            else
+               printf(" S%d:UNKNOWN /", k);
+      }
+      printf("\n");
+   }
+   printf("===========================================================\n\n");
+}
+
 int main(int argc, char *argv[]) {
    static int N,           // número de processos
               token,       // indica o processo que está executando
@@ -218,21 +236,7 @@ int main(int argc, char *argv[]) {
                }
             }
 
-            printf("Processo %d checando timeouts no tempo %.1f\n", token, time());
-            printf("\n=========== Estado dos Processos no tempo %.1f ===========\n", time());
-            for (int j = 0; j < N; j++) {
-               printf("P%d: ", j);
-               for (int k = 0; k < N; k++) {
-                     if (processo[j].State[k] == 0)
-                        printf(" S%d:CORRETO /", k);
-                     else if (processo[j].State[k] == 1)
-                        printf(" S%d:SUSPEITO /", k);
-                     else
-                        printf(" S%d:UNKNOWN /", k);
-               }
-               printf("\n");
-            }
-            printf("===========================================================\n\n");
+            print_states(token, N);   
             schedule(CHECK_TIMEOUT, T, token);
             break;
 
