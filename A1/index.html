@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>vRing Pulse</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #8a8a8a;
+      color: white;
+      line-height: 1.6;
+      height: 100%; /* Garante que html e body ocupem 100% da altura */
+      overflow: hidden; /* Evita rolagem desnecessária no body */
+    }
+
+    header {
+      background: #6e6e6e;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+
+    header h1 {
+      margin: 0;
+      color: #66c2ff;
+      font-size: 2em;
+    }
+
+    .main {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 30px 20px;
+      height: calc(100% - 80px); /* Altura total da página menos a altura do header */
+      box-sizing: border-box; /* Inclui padding na altura */
+    }
+
+    .tab-container {
+      display: flex;
+      flex-direction: column;
+      width: 80%; /* Largura total do container das abas */
+      height: 100%; /* Ocupa a altura restante do .main */
+    }
+
+    .content-box {
+      width: 100%; /* Ocupa a largura total do tab-container */
+      height: 95%; /* **Define a altura do quadrado cinza em porcentagem da altura do tab-container** */
+      background: #7a7a7a;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      overflow-y: auto; /* Adiciona barra de rolagem se o conteúdo for maior */
+      box-sizing: border-box; /* Inclui padding na altura */
+    }
+
+    .tabs, .subtabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tablink, .subtablink {
+      background: #5e5e5e;
+      border: none;
+      color: white;
+      /* Aumenta o tamanho da fonte */
+      font-size: 1.1em; /* Ajuste este valor conforme necessário */
+      font-weight: bold; /* Deixa o texto em negrito */
+      padding: 10px 20px; /* Aumenta o padding para um botão maior */
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .tablink:hover, .subtablink:hover {
+      background: #666;
+    }
+
+    .tablink.active, .subtablink.active {
+      background: #66c2ff;
+      color: black;
+    }
+
+    .tab-content, .subtab-content {
+      display: none;
+    }
+
+    .tab-content.active, .subtab-content.active {
+      display: block;
+    }
+
+    h2 {
+      color: #66c2ff;
+    }
+
+    pre {
+      background: #6e6e6e;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', monospace;
+      line-height: 1.4;
+      margin: 1.5em 0;
+    }
+
+    p {
+      margin: 1em 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>vRing Pulse</h1>
+  </header>
+
+  <main class="main">
+    <div class="tab-container">
+      <div class="tabs">
+        <button class="tablink active" onclick="openTab(event, 'relatorio')">Relatório</button>
+        <button class="tablink" onclick="openTab(event, 'atividade0')">Atividade 0</button>
+        <button class="tablink" onclick="openTab(event, 'atividade1')">Atividade 1</button>
+      </div>
+
+      <div class="content-box">
+        <div id="relatorio" class="tab-content active">
+          <p><strong style="font-size: 1.1em;"> Bruno Aziz Spring Machado - GRR20211279</strong></p>
+          <p><strong style="font-size: 1.1em;">Fábio Naconeczny da Silva  - GRR20211782</strong></p>
+  <h2>1. Introdução</h2>
+  <p>
+    Este trabalho tem como objetivo propor uma nova versão do algoritmo de detecção de falhas <strong>vRing</strong>, 
+    originalmente baseado na abordagem <em>pull</em>, na qual os processos realizam testes ativos entre si para 
+    determinar o estado dos seus vizinhos. A proposta deste projeto de pesquisa é transformar o vRing em um 
+    algoritmo do tipo <em>push</em>, tolerante a falhas, no qual os processos enviam periodicamente mensagens 
+    de <em>heartbeat</em> para informar que estão operando corretamente.
+  </p>
+
+  <h2>2. Nome do Algoritmo Proposto</h2>
+  <p>
+    O algoritmo proposto será chamado de <strong>vRing Pulse</strong>. Este nome foi escolhido por conta da 
+    transmissão periódica de mensagens a cada intervalo de tempo, um <em>pulso</em>. Assim como um pulso cardíaco 
+    indica o funcionamento de um organismo, os pulsos enviados pelos processos informam aos vizinhos que estão 
+    corretos e operacionais.
+  </p>
+
+  <h2>3. Descrição em Alto Nível</h2>
+
+  <h3>3.1 Modelo de Sistema</h3>
+  <ul>
+    <li><strong>Topologia:</strong> Multi-Hop em formato de anel lógico, semelhante ao vRing. Cada processo se comunica apenas com seu vizinho mais próximo da direita e da esquerda. A topologia pode se adaptar em caso de falhas.</li>
+    <li><strong>Processos:</strong> N processos identificados por IDs únicos (0, 1, 2, ..., N-1).</li>
+    <li><strong>Modelo Temporal:</strong> Assíncrono, com canais não confiáveis. Não há distinção entre lentidão e falha.</li>
+    <li><strong>Modelo de Falhas:</strong> Falhas por parada (Crash / Fail-stop). Processos não se recuperam após falhar. Os outros detectam e lidam com a falha.</li>
+    <li><strong>Modelo de Detecção:</strong> Push com uso de temporizadores (<em>timeouts</em>), baseando-se na não recepção de <em>heartbeats</em>.</li>
+    <li><strong>Modelo de Enlace:</strong> Fair-loss. Não há garantias de entrega ou retransmissão. Se uma mensagem for enviada infinitamente, será eventualmente entregue.</li>
+  </ul>
+
+  <h3>3.2 Funcionamento do vRing Pulse</h3>
+  <p>
+    O desenvolvimento deste trabalho foi motivado pela necessidade de implementar um algoritmo de detecção de 
+    falhas em um anel de processos, baseado no envio periódico de mensagens de <em>heartbeat</em>. A principal 
+    decisão de implementação foi a adoção de uma estrutura onde cada processo mantém dois vizinhos, esquerdo e 
+    direito, formando um anel lógico. A comunicação é restrita a esses vizinhos, promovendo simplicidade no modelo 
+    e permitindo que a detecção de falhas se propague de forma eficiente e descentralizada.
+  </p>
+
+  <p>
+    Cada processo envia <em>heartbeats</em> periodicamente para seus dois vizinhos, com um intervalo de tempo 
+    constante definido como T. Sempre que um processo recebe um <em>heartbeat</em> de outro, ele zera o timer que 
+    monitora aquele emissor, sinalizando que ele está ativo. Caso não receba o <em>heartbeat</em> dentro de dois 
+    intervalos (2T), o processo considera seu vizinho como suspeito de falha. Essa escolha de dois períodos visa 
+    evitar detecções precipitadas causadas por atrasos.
+  </p>
+
+  <p>
+    Ao identificar um vizinho como suspeito, o processo não apenas marca isso em seu vetor de estados, mas também 
+    realiza um mecanismo de salto para contornar o nodo falho. Esse salto consiste em buscar, na direção do vizinho 
+    que falhou, o próximo processo que não esteja marcado como suspeito. Ao encontrar, ele redefine este como seu 
+    novo vizinho. Esse comportamento permite que o anel se adapte dinamicamente à presença de falhas.
+  </p>
+
+  <p>
+    Outra decisão importante foi a propagação do vetor de estados. Sempre que um processo envia um 
+    <em>heartbeat</em>, ele também transmite sua visão atual sobre o estado dos demais processos. Essa informação 
+    é utilizada pelos vizinhos para atualizar seus próprios vetores de estado, garantindo que o conhecimento sobre 
+    falhas se propague rapidamente pelo anel.
+  </p>
+
+  <p>
+    O uso de <strong>timers individuais</strong> para cada processo monitorado permite um controle fino e 
+    descentralizado, onde cada nodo avalia de forma independente o estado dos demais. A lógica de checagem dos 
+    <em>timers</em> foi implementada de forma que, a cada evento de checagem de timeout 
+    (<code>CHECK_TIMEOUT</code>), o processo acumula o tempo decorrido desde a última checagem. Caso esse tempo 
+    ultrapasse o limite configurado, ele aciona o processo de detecção de falha, atualização de vizinhos e 
+    propagação do estado.
+  </p>
+
+	 <h2 style="display: inline;">2. Especificação em Pseudo-código</h2>
+         <a href="pseudocodigo.txt" target="_blank" style="margin-left: 15px; font-size: 0.9em;">[Ver pseudocódigo em outra aba]</a>
+          <pre>
+// Algoritmo Detector de Falhas executado pelo processo i:
+Inicializar:
+    Para todo processo j:
+        Se i == j:
+            State[j] ← 0       // Eu sei que estou correto
+        Senão:
+            State[j] ← -1      // Desconhecido
+
+        Timer[j] ← 0           // Tempo desde o último heartbeat recebido de j
+
+    VizinhoEsquerda ← (i - 1 + N) % N
+    VizinhoDireita ← (i + 1) % N
+    Timeout ← 2 * T
+
+A cada intervalo T:
+    // Envia heartbeat para os vizinhos
+    Enviar HEARTBEAT(i, State) para VizinhoEsquerda
+    Enviar HEARTBEAT(i, State) para VizinhoDireita
+
+    // Reinicia Timer[i] nos vizinhos ao receberem o heartbeat
+
+    // Verifica timeouts dos vizinhos
+    Para cada vizinho ∈ {VizinhoEsquerda, VizinhoDireita}:
+        Timer[vizinho] += T
+        Se Timer[vizinho] ≥ Timeout e State[vizinho] ≠ 1:
+            State[vizinho] ← 1  // Marcar como SUSPEITO
+            Imprimir: "Processo i detecta que vizinho está SUSPEITO no tempo T"
+
+            salto ← 1
+            Enquanto salto < N:
+                Se vizinho == VizinhoDireita:
+                    k ← (vizinho + salto) % N
+                Senão:
+                    k ← (vizinho - salto + N) % N
+
+                Se k == i:
+                    break
+
+                Se State[k] == 1:
+                    salto ← salto + 1
+                    continue
+
+                // Enviar "heartbeat simulado" para propagar estado para um processo correto
+                Enviar HEARTBEAT(i, State) para k
+                Reiniciar Timer[i] em k
+                Atualizar State[k][j] ← estado mais recente
+                break
+
+            // Atualiza vizinho no anel
+            Se vizinho == VizinhoEsquerda:
+                VizinhoEsquerda ← (VizinhoEsquerda - 1 + N) % N
+            Se vizinho == VizinhoDireita:
+                VizinhoDireita ← (VizinhoDireita + 1) % N
+
+
+Ao receber HEARTBEAT(j, State_j):
+    Timer[j] ← 0
+    State[j] ← 0
+
+    Para cada s ∈ [0, N):
+        Se State_j[s] for mais recente que State[s]:
+            State[s] ← State_j[s]
+
+          </pre>
+	<h2>Execução do Cenário</h2>
+        <img src="execucao.svg" alt="Execução da Simulação" class="img-center">
+        </div>
+
+        <div id="atividade0" class="tab-content">
+        <h2>Atividade 0 - Roteiro de Aprendizado Prático com SMPL</h2>
+
+        <p>Esta atividade tem como objetivo aprender o funcionamento da biblioteca de simulação <strong>SMPL</strong>, implementando progressivamente funcionalidades básicas de simulação de sistemas distribuídos.</p>
+
+        <p><strong>Links para os códigos e logs de cada tarefa:</strong></p>
+        <ul>
+            <li><strong>Tarefa 0: Executar programa tempo.c</strong><br>
+            <a href="A0/tarefa0/tempo.c.txt" target="_blank">[Ver código]</a> |
+            <a href="A0/tarefa0/log0.txt" target="_blank">[Ver log]</a>
+            </li>
+            <li><strong>Tarefa 1: Testar próximo no anel com status()</strong><br>
+            <a href="A0/tarefa1/tarefa1.c.txt" target="_blank">[Ver código]</a> |
+            <a href="A0/tarefa1/log1.txt" target="_blank">[Ver log]</a>
+            </li>
+            <li><strong>Tarefa 2: Testar até achar um processo correto</strong><br>
+            <a href="A0/tarefa2/tarefa2.c.txt" target="_blank">[Ver código]</a> |
+            <a href="A0/tarefa2/log2.txt" target="_blank">[Ver log]</a>
+            </li>
+            <li><strong>Tarefa 3: Usar vetor State[N] com estados dos processos</strong><br>
+            <a href="A0/tarefa3/tarefa3.c.txt" target="_blank">[Ver código]</a> |
+            <a href="A0/tarefa3/log3.txt" target="_blank">[Ver log]</a>
+            </li>
+            <li><strong>Tarefa 4: Propagar vetor State ao testar processo correto</strong><br>
+            <a href="A0/tarefa4/tarefa4.c.txt" target="_blank">[Ver código]</a> |
+            <a href="A0/tarefa4/log4.txt" target="_blank">[Ver log]</a>
+            </li>
+        </ul>
+        </div>
+
+        <div id="atividade1" class="tab-content">
+          <div class="subtabs">
+            <button class="subtablink active" onclick="openSubtab(event, 'logs')">Logs</button>
+            <button class="subtablink" onclick="openSubtab(event, 'codigos')">Códigos</button>
+          </div>
+
+        <div id="logs" class="subtab-content active">
+            <h2>Logs</h2>
+
+            <p>Os resultados detalhados de cada cenário podem ser consultados através dos logs de simulação.</p>
+
+            <p><strong>Acesse os logs para cada cenário:</strong></p>
+            <ul>
+                <li><strong>Cenário 1: Falha Inicial de um Processo:</strong>
+                    <a href="logs/cenario1.txt" target="_blank">[Ver log]</a>
+                </li>
+                <li><strong>Cenário 2: Falha Tardia de um Processo:</strong>
+                    <a href="logs/cenario2.txt" target="_blank">[Ver log]</a>
+                </li>
+                <li><strong>Cenário 3: Falha Consecutiva de Dois Processos:</strong>
+                    <a href="logs/cenario3.txt" target="_blank">[Ver log]</a>
+                </li>
+                <li><strong>Cenário 4: Falha Consecutiva de Três Processos:</strong>
+                    <a href="logs/cenario4.txt" target="_blank">[Ver log]</a>
+                </li>
+                <li><strong>Cenário 5: Um Único Processo Correto:</strong>
+                    <a href="logs/cenario5.txt" target="_blank">[Ver log]</a>
+                </li>
+                <li><strong>Cenário 6: Apenas dois Processos corretos separados por vários falhos:</strong>
+                    <a href="logs/cenario6.txt" target="_blank">[Ver log]</a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="codigos" class="subtab-content">
+        <h2>Códigos</h2>
+        <p><strong>Código Principal:</strong> <a href="codigos/main.c.txt" target="_blank">[Ver Código Principal]</a></p>
+        <p>Makefile: <a href="codigos/Makefile.txt" target="_blank">[Ver Makefile]</a></p>
+        <p>Arquivos fornecidos pelo professor: 
+            <a href="codigos/smpl.c.txt" target="_blank">[smpl.c]</a>
+            <a href="codigos/smpl.h.txt" target="_blank">[smpl.h]</a>
+            <a href="codigos/rand.c.txt" target="_blank">[rand.c]</a>
+        </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function openTab(evt, tabId) {
+      document.querySelectorAll('.tablink').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      evt.currentTarget.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function openSubtab(evt, subtabId) {
+      const atividade1 = document.getElementById('atividade1');
+      atividade1.querySelectorAll('.subtablink').forEach(btn => btn.classList.remove('active'));
+      atividade1.querySelectorAll('.subtab-content').forEach(tab => tab.classList.remove('active'));
+      evt.currentTarget.classList.add('active');
+      atividade1.querySelector(`#${subtabId}`).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>

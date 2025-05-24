@@ -21,8 +21,8 @@ typedef struct {
 TipoProcesso *processo;
 
 void print_states(int token, int N) {
-   printf("Processo %d checando timeouts no tempo %.1f\n", token, time());
-   printf("\n=========== Estado dos Processos no tempo %.1f ===========\n", time());
+   //printf("Processo %d checando timeouts no tempo %.1f\n", token, time());
+   printf("\n======================= Vetor state de cada processo no tempo %.1f ================================\n", time());
    for (int j = 0; j < N; j++) {
       printf("P%d: ", j);
       for (int k = 0; k < N; k++) {
@@ -35,7 +35,7 @@ void print_states(int token, int N) {
       }
       printf("\n");
    }
-   printf("===========================================================\n\n");
+   printf("====================================================================================================\n\n");
 }
 
 int main(int argc, char *argv[]) {
@@ -97,10 +97,9 @@ int main(int argc, char *argv[]) {
    }
    
    // Escalonar falhas para teste
-   //schedule(FAULT, 31.0, 1);
-   schedule(FAULT, 31.0, 2);
+   schedule(FAULT, 31.0, 0);
+   schedule(FAULT, 31.0, 1);
    schedule(FAULT, 31.0, 3);
-
 
    puts("===============================================================");
    puts("           Sistemas Distribuídos - vRing Pulse");
@@ -123,7 +122,7 @@ int main(int argc, char *argv[]) {
             if (status(processo[token].id) != 0) break; // Processo falho não envia heartbeats
 
             // Envia heartbeats para os vizinhos
-            printf("Processo %d enviando HEARTBEAT para %d (esq) e %d (dir) no tempo %.1f\n", 
+            printf("\nProcesso %d enviando HEARTBEAT para %d (esq) e %d (dir) no tempo %.1f\n", 
                   token, processo[token].left, processo[token].right, time());
 
             // Reset timer nos vizinhos que receberam o heartbeat
@@ -143,21 +142,6 @@ int main(int argc, char *argv[]) {
                   processo[processo[token].right].State[s] = estado_local;
             }
 
-            // Propagação do vetor de estados (State[]) para os vizinhos
-            // for (int s = 0; s < N; s++) {
-            //    int estado_local = processo[token].State[s]; // estado que token tem sobre s
-
-            //    // Propagar para o vizinho esquerdo
-            //    if (estado_local == 0 || processo[processo[token].left].State[s] == -1) {
-            //          processo[processo[token].left].State[s] = estado_local;
-            //    }
-
-            //    // Propagar para o vizinho direito
-            //    if (estado_local == 0 || processo[processo[token].right].State[s] == -1) {
-            //          processo[processo[token].right].State[s] = estado_local;
-            //    }
-            // }
-
             // Reagenda o próximo heartbeat
             schedule(HEARTBEAT, T, token);
             break;
@@ -165,15 +149,10 @@ int main(int argc, char *argv[]) {
          case FAULT:
             r = request(processo[token].id, token, 0);
 
-            if (r != 0) {
-               printf("Erro ao falhar processo %d no tempo %.1f: recurso já alocado.\n", token, time());
-            } else {
-               printf("\n");
-               printf("================================================================\n");
-               printf("O processo %d falhou no tempo %.1f\n", token, time());
-               printf("================================================================\n");
-               printf("\n");
-            }
+            printf("\n");
+            printf("================================================================\n");
+            printf("O processo %d falhou no tempo %.1f\n", token, time());
+            printf("================================================================\n");
 
             break;
          case CHECK_TIMEOUT:
@@ -187,7 +166,7 @@ int main(int argc, char *argv[]) {
                int j = vizinhos[i];
                processo[token].Timer[j] += delta;
 
-               printf("Processo %d checando o timer de %d: %d\n", token, j, processo[token].Timer[j]);
+               //printf("Processo %d checando o timer de %d: %d\n", token, j, processo[token].Timer[j]);
 
                if (processo[token].Timer[j] >= 2*T) {
                      processo[token].State[j] = 1; // Marca como suspeito
